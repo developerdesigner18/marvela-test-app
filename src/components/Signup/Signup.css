@@ -1,0 +1,42 @@
+.signup_container {
+  background: #1d1d49;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.signup_main_box {
+  padding: 20px;
+  width: 50%;
+}
+.css-zpcwqm-MuiStepConnector-root {
+  top: 10px !important;
+  left: calc(-50% + 0px) !important;
+  right: calc(50% + 0px) !important;
+}
+.css-v4u5dn-MuiInputBase-root-MuiInput-root:after {
+  border-bottom: 1px solid #838383 !important;
+}
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: #ffba5c !important;
+}
+.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  color: white !important;
+}
+.file_actual_input {
+  display: none;
+}
+.file_input_holder {
+  background: #00a6ff;
+  color: white;
+  cursor: pointer;
+  width: 40%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 700px) {
+  .signup_main_box {
+    width: 90%;
+  }
+}
