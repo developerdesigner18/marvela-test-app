@@ -64,7 +64,6 @@ const AddressForm = ({ setuserData, userData, setActiveStep }) => {
         label="City"
         variant="standard"
         focused
-        type="email"
         sx={{ width: "100%", marginBottom: "20px" }}
         value={userData.city}
         onChange={(e) =>
