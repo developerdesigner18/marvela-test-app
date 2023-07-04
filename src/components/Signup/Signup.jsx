@@ -119,14 +119,6 @@ const Signup = () => {
     password: "",
   });
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
   return (
     <div className="signup_container">
       <div className="signup_main_box">
