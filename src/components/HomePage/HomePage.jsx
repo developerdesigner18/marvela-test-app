@@ -16,7 +16,6 @@ const HomePage = () => {
         try {
 
             const token = JSON.parse(localStorage.getItem("Token"));
-            if (!token) navigate("/signin");
 
             const url = `${process.env.REACT_APP_BASE_URL}/users/getUserData`
 
@@ -52,7 +51,7 @@ const HomePage = () => {
             <div className="home_page">
                 <div className="home_page_main">
                     <div className="home_page_heading">
-                        <span>{`Welcome, Home`}</span>
+                        <span>{`Welcome, ${userData.firstname || ""}`}</span>
                     </div>
 
                     <div className="home_page_field_container">

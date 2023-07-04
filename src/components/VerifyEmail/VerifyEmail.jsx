@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { validEmail } from "../Signin/Signin";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const VerifyEmail = () => {
+
+    const validEmail = localStorage.getItem("validEmail");
 
     const navigate = useNavigate();
 
     const [otp, setOtp] = useState("")
 
+    useEffect(() => {
+        if (!validEmail) navigate("/signin");
+    }, [])
+
     const verifyOtpHandler = async () => {
         try {
 
-            if (!validEmail || !otp) return;
+            if (!validEmail) navigate("/signin");
+
+            if (!otp) return;
             const body = {
                 email: validEmail,
                 otp
@@ -25,11 +33,13 @@ const VerifyEmail = () => {
             const res = await axios.post(url, body);
 
             localStorage.setItem("Token", JSON.stringify(res.data.token));
+            localStorage.removeItem("validEmail");
 
-            navigate("/homePage");
+            navigate("/");
 
         } catch (error) {
             console.log(error);
+            toast.error(`Invalid Otp`);
         }
 
     }
@@ -51,7 +61,7 @@ const VerifyEmail = () => {
 
                 <div className="heading2">
                     <span className="heading2_main">Verify Your Email</span>
-                    <span className="heading2_sub">{`A 8 digit verification code was sent to email check your Spam or Junk folder`}</span>
+                    <span className="heading2_sub">{`A 6 digit verification code was sent to ${validEmail || "-"} check your Spam or Junk folder`}</span>
                 </div>
 
                 <div className="field_container">

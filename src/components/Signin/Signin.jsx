@@ -4,8 +4,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-export let validEmail;
+import { toast } from "react-toastify";
 
 const Signin = () => {
 
@@ -23,24 +22,23 @@ const Signin = () => {
                 password
             }
 
-            console.log("body", body);
-
             const url = `${process.env.REACT_APP_BASE_URL}/users/signIn`
 
             const res = await axios.post(url, body);
 
-            validEmail = email;
+            localStorage.setItem("validEmail", email);
 
-            navigate('/verifyEmail');
+            navigate('/verify-email');
 
         } catch (error) {
             console.log(error);
+            toast.error(`Invalid Credentials`);
         }
 
     }
 
     const createAccountHandler = () => {
-        navigate('/signup');
+        navigate('/signup-begin');
     }
 
     return (

@@ -6,16 +6,28 @@ import VerifyEmail from "./components/VerifyEmail/VerifyEmail";
 import HomePage from "./components/HomePage/HomePage";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import RequireUser from "./components/RequireUser";
+import OnlyIfNotLoggedIn from "./components/OnlyIfNotLoggedIn";
+import SignupStart from "./components/Signup/SignupStart/SignupStart";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/verifyEmail" element={<VerifyEmail />} />
+
+          <Route element={<RequireUser />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
+
+          <Route element={<OnlyIfNotLoggedIn />}>
+            <Route path="/signup-begin" element={<SignupStart />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+          </Route>
+
+
         </Routes>
       </BrowserRouter>
       <ToastContainer
