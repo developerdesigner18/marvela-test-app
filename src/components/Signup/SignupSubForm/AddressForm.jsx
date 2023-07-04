@@ -1,7 +1,25 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
+import { findEmptyFields } from "../../../utils/Helper";
+import { toast } from "react-toastify";
 
-const AddressForm = ({ setuserData, userData }) => {
+const AddressForm = ({ setuserData, userData, setActiveStep }) => {
+  const handleNext = () => {
+    const { add1, add2, city, country, addImage } = userData;
+    const emptyField = findEmptyFields({
+      add1,
+      add2,
+      city,
+      country,
+      addImage,
+    });
+    if (emptyField.length > 0) {
+      toast.error(`Please fill ${emptyField[0]} field`);
+    } else {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+    console.log(emptyField);
+  };
   return (
     <div>
       <TextField
@@ -9,10 +27,11 @@ const AddressForm = ({ setuserData, userData }) => {
         variant="standard"
         focused
         sx={{ width: "100%", marginBottom: "20px" }}
+        value={userData.add1}
         onChange={(e) =>
           setuserData((prevState) => ({
             ...prevState,
-            address1: e.target.value,
+            add1: e.target.value,
           }))
         }
       />
@@ -21,10 +40,11 @@ const AddressForm = ({ setuserData, userData }) => {
         variant="standard"
         focused
         sx={{ width: "100%", marginBottom: "20px" }}
+        value={userData.add2}
         onChange={(e) =>
           setuserData((prevState) => ({
             ...prevState,
-            address2: e.target.value,
+            add2: e.target.value,
           }))
         }
       />
@@ -34,6 +54,7 @@ const AddressForm = ({ setuserData, userData }) => {
         focused
         type="email"
         sx={{ width: "100%", marginBottom: "20px" }}
+        value={userData.city}
         onChange={(e) =>
           setuserData((prevState) => ({
             ...prevState,
@@ -46,6 +67,7 @@ const AddressForm = ({ setuserData, userData }) => {
         variant="standard"
         focused
         sx={{ width: "100%", marginBottom: "20px" }}
+        value={userData.country}
         onChange={(e) =>
           setuserData((prevState) => ({
             ...prevState,
@@ -97,6 +119,26 @@ const AddressForm = ({ setuserData, userData }) => {
         />
       </div>
       <br />
+      <div>
+        <Button
+          onClick={handleNext}
+          variant="contained"
+          sx={{ background: "#00A6FF" }}
+          fullWidth
+        >
+          PROCEES
+        </Button>
+        <br />
+        <br />
+        <Button
+          onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
+          variant="contained"
+          sx={{ background: "#0E45A1" }}
+          fullWidth
+        >
+          Back
+        </Button>
+      </div>
     </div>
   );
 };

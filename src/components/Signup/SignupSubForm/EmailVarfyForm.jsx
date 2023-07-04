@@ -53,6 +53,14 @@ const EmailVarfyForm = ({ setuserData, userData, setActiveStep }) => {
 
       <br />
       <br />
+      <Button
+        onClick={() => setActiveStep(0)}
+        variant="contained"
+        sx={{ background: "#F95F62" }}
+        fullWidth
+      >
+        START OVER
+      </Button>
     </div>
   );
 };
