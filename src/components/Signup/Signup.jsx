@@ -132,6 +132,12 @@ const Signup = () => {
       <div className="signup_main_box">
         <Typography
           variant="h5"
+          sx={{ color: "#FFBA5C", marginBottom: "30px", textAlign: "end" }}
+        >
+          Logo
+        </Typography>
+        <Typography
+          variant="h5"
           sx={{ color: "#FFBA5C", marginBottom: "30px" }}
         >
           Sign Up
