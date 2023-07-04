@@ -106,6 +106,7 @@ const BasicInfoForm = ({ setuserData, userData, setActiveStep }) => {
         label="Mobile Phone Number"
         variant="standard"
         focused
+        type="number"
         sx={{ width: "100%", marginBottom: "20px" }}
         value={userData.mobilenumber}
         onChange={(e) =>
