@@ -13,6 +13,7 @@ import BasicInfoForm from "./SignupSubForm/BasicInfoForm";
 import AddressForm from "./SignupSubForm/AddressForm";
 import EmailVarfyForm from "./SignupSubForm/EmailVarfyForm";
 import SetPassForm from "./SignupSubForm/SetPassForm";
+import SignupCompleted from "./SignupCompleted/SignupCompleted";
 
 const QontoStepIconRoot = styled("div")(({ theme, ownerState }) => ({
   color: theme.palette.mode === "dark" ? theme.palette.grey[700] : "#eaeaf0",
@@ -104,7 +105,20 @@ const steps = ["Basic Info", "Address", "Varify Email", "Set Password"];
 
 const Signup = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [userData, setuserData] = useState({});
+  const [userData, setuserData] = useState({
+    salutation: "Mr.",
+    firstname: "",
+    lastname: "",
+    email: "",
+    mobilenumber: "",
+    add1: "",
+    add2: "",
+    city: "",
+    country: "",
+    addImage: "",
+    password: "",
+  });
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -150,9 +164,17 @@ const Signup = () => {
         </Typography>
 
         {activeStep == 0 ? (
-          <BasicInfoForm setuserData={setuserData} />
+          <BasicInfoForm
+            setuserData={setuserData}
+            userData={userData}
+            setActiveStep={setActiveStep}
+          />
         ) : activeStep == 1 ? (
-          <AddressForm setuserData={setuserData} userData={userData} />
+          <AddressForm
+            setuserData={setuserData}
+            userData={userData}
+            setActiveStep={setActiveStep}
+          />
         ) : activeStep == 2 ? (
           <EmailVarfyForm
             setuserData={setuserData}
@@ -160,39 +182,14 @@ const Signup = () => {
             setActiveStep={setActiveStep}
           />
         ) : activeStep == 3 ? (
-          <SetPassForm setuserData={setuserData} userData={userData} />
-        ) : null}
-        {activeStep < 2 ? (
-          <div>
-            <Button
-              onClick={handleNext}
-              variant="contained"
-              sx={{ background: "#00A6FF" }}
-              fullWidth
-            >
-              {activeStep === steps.length - 1 ? "SIGNUP" : "PROCEES"}
-            </Button>
-            <br />
-            <br />
-            <Button
-              onClick={handleBack}
-              variant="contained"
-              sx={{ background: "#0E45A1" }}
-              fullWidth
-            >
-              Back
-            </Button>
-          </div>
-        ) : activeStep == 2 ? (
-          <Button
-            onClick={() => setActiveStep(0)}
-            variant="contained"
-            sx={{ background: "#F95F62" }}
-            fullWidth
-          >
-            START OVER
-          </Button>
-        ) : null}
+          <SetPassForm
+            setuserData={setuserData}
+            userData={userData}
+            setActiveStep={setActiveStep}
+          />
+        ) : (
+          <SignupCompleted />
+        )}
       </div>
     </div>
   );
