@@ -1,14 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { validEmail } from "../Signin/Signin";
+import axios from "axios";
 
 const VerifyEmail = () => {
 
     const navigate = useNavigate();
 
-    const verifyOtpHandler = () => {
-        navigate("/homePage");
+    const [otp, setOtp] = useState("")
+
+    const verifyOtpHandler = async () => {
+        try {
+
+            if (!validEmail || !otp) return;
+            const body = {
+                email: validEmail,
+                otp
+            }
+
+            const url = `${process.env.REACT_APP_BASE_URL}/users/verifyOtpLogin`
+
+            const res = await axios.post(url, body);
+
+            localStorage.setItem("Token", JSON.stringify(res.data.token));
+
+            navigate("/homePage");
+
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 
     const cancelVerificationHandler = () => {
@@ -38,11 +61,12 @@ const VerifyEmail = () => {
                             input: { color: 'white' },
                             width: "100%"
                         }}
-                        color="warning"
                         id="standard-basic"
                         label="Enter verificaton code below"
                         variant="standard"
                         focused
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
                     />
 
 

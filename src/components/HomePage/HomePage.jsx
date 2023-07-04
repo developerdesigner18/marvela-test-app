@@ -1,15 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import "./HomePage.css"
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const HomePage = () => {
 
     const navigate = useNavigate();
 
+    const [userData, setUserData] = useState({});
+
+    const fetchUserData = async () => {
+        try {
+
+            const token = JSON.parse(localStorage.getItem("Token"));
+            if (!token) navigate("/signin");
+
+            const url = `${process.env.REACT_APP_BASE_URL}/users/getUserData`
+
+            const res = await axios.get(url, {
+                headers: {
+                    Authorization: "Bearer " + token,
+                },
+            })
+
+            setUserData(res.data.data);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchUserData();
+    }, [])
+
     const logoutHandler = () => {
+        localStorage.removeItem("Token");
         navigate("/signin")
     }
 
@@ -33,7 +62,7 @@ const HomePage = () => {
                                 input: { color: 'white' },
                                 width: "100%"
                             }}
-                            color="warning"
+                            value={userData.salutation || ""}
                             id="standard-basic"
                             label="Salutaion"
                             variant="standard"
@@ -44,7 +73,7 @@ const HomePage = () => {
                                 input: { color: 'white' },
                                 width: "100%"
                             }}
-                            color="warning"
+                            value={userData.firstname || ""}
                             id="standard-basic"
                             label="First Name"
                             variant="standard"
@@ -55,7 +84,7 @@ const HomePage = () => {
                                 input: { color: 'white' },
                                 width: "100%"
                             }}
-                            color="warning"
+                            value={userData.lastname || ""}
                             id="standard-basic"
                             label="Last Name"
                             variant="standard"
@@ -66,7 +95,7 @@ const HomePage = () => {
                                 input: { color: 'white' },
                                 width: "100%"
                             }}
-                            color="warning"
+                            value={userData.email || ""}
                             id="standard-basic"
                             label="Email Address"
                             variant="standard"
@@ -77,7 +106,7 @@ const HomePage = () => {
                                 input: { color: 'white' },
                                 width: "100%"
                             }}
-                            color="warning"
+                            value={userData.mobilenumber || ""}
                             id="standard-basic"
                             label="Mobile Phone Number"
                             variant="standard"

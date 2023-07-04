@@ -3,6 +3,9 @@ import "./Signin.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+export let validEmail;
 
 const Signin = () => {
 
@@ -11,13 +14,29 @@ const Signin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const signInHandler = () => {
-        if (!email || !password) return;
-        const body = {
-            email,
-            password
+    const signInHandler = async () => {
+        try {
+
+            if (!email || !password) return;
+            const body = {
+                email,
+                password
+            }
+
+            console.log("body", body);
+
+            const url = `${process.env.REACT_APP_BASE_URL}/users/signIn`
+
+            const res = await axios.post(url, body);
+
+            validEmail = email;
+
+            navigate('/verifyEmail');
+
+        } catch (error) {
+            console.log(error);
         }
-        navigate('/verifyEmail');
+
     }
 
     const createAccountHandler = () => {
@@ -47,7 +66,6 @@ const Signin = () => {
                             input: { color: 'white' },
                             width: "100%"
                         }}
-                        color="warning"
                         id="standard-basic"
                         label="Email Address"
                         variant="standard"
@@ -62,7 +80,6 @@ const Signin = () => {
                             input: { color: 'white' },
                             width: "100%"
                         }}
-                        color="warning"
                         id="standard-basic"
                         label="Password"
                         type="password"
