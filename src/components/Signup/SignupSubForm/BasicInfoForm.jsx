@@ -131,14 +131,14 @@ const BasicInfoForm = ({ setuserData, userData, setActiveStep }) => {
         </Button>
         <br />
         <br />
-        <Button
+        {/* <Button
           onClick={() => setActiveStep((prevActiveStep) => prevActiveStep - 1)}
           variant="contained"
           sx={{ background: "#0E45A1" }}
           fullWidth
         >
           Back
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
