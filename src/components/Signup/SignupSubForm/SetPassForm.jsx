@@ -1,11 +1,25 @@
 import { Button, TextField, Typography } from "@mui/material";
+import axios from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 
 const SetPassForm = ({ setuserData, userData, setActiveStep }) => {
   const handleNext = () => {
-    if (userData.password === userData.conPassword) {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (userData.password == userData.conPassword) {
+      const formData = new FormData();
+      Object.keys(userData).forEach((item) => {
+        formData.append(item, userData[item]);
+      });
+      axios
+        .post(`${process.env.REACT_APP_BASE_URL}/users/signUp`, formData)
+        .then((response) => {
+          toast.success(`Signup Successfully`);
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        })
+        .catch((err) => {
+          toast.error(err.response.data.error);
+          console.log(err);
+        });
     } else {
       toast.error("Confirm Password does not match");
     }
@@ -64,7 +78,7 @@ const SetPassForm = ({ setuserData, userData, setActiveStep }) => {
       />
 
       <Button
-        onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+        onClick={handleNext}
         variant="contained"
         sx={{ background: "#00A6FF" }}
         fullWidth

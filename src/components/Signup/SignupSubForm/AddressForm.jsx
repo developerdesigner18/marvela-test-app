@@ -2,23 +2,35 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import React from "react";
 import { findEmptyFields } from "../../../utils/Helper";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const AddressForm = ({ setuserData, userData, setActiveStep }) => {
   const handleNext = () => {
-    const { add1, add2, city, country, addImage } = userData;
+    const { add1, add2, city, country, image } = userData;
     const emptyField = findEmptyFields({
       add1,
       add2,
       city,
       country,
-      addImage,
+      image,
     });
     if (emptyField.length > 0) {
       toast.error(`Please fill ${emptyField[0]} field`);
     } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      axios
+        .post(`${process.env.REACT_APP_BASE_URL}/users/sendOtp`, {
+          email: userData.email,
+        })
+        .then((response) => {
+          console.log(response);
+          toast.success(`OTP Successfully send on your email`);
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        })
+        .catch((err) => {
+          toast.error("Somthing went wrong please try again");
+          console.log(err);
+        });
     }
-    console.log(emptyField);
   };
   return (
     <div>
@@ -89,11 +101,11 @@ const AddressForm = ({ setuserData, userData, setActiveStep }) => {
           Upload photo of Address
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <label className="file_input_holder" htmlFor={"addImage"}>
+          <label className="file_input_holder" htmlFor={"image"}>
             UPLOAD
           </label>
           <Box sx={{ width: "50%" }}>
-            {userData.addImage && (
+            {userData.image && (
               <label
                 style={{
                   wordBreak: "break-all",
@@ -101,7 +113,7 @@ const AddressForm = ({ setuserData, userData, setActiveStep }) => {
                   fontSize: "14px",
                 }}
               >
-                {userData.addImage.name}
+                {userData.image.name}
               </label>
             )}
           </Box>
@@ -109,11 +121,11 @@ const AddressForm = ({ setuserData, userData, setActiveStep }) => {
         <input
           type="file"
           className="file_actual_input"
-          id={"addImage"}
+          id={"image"}
           onChange={(e) =>
             setuserData((prevState) => ({
               ...prevState,
-              addImage: e.target.files[0],
+              image: e.target.files[0],
             }))
           }
         />

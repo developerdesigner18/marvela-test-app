@@ -1,7 +1,39 @@
 import { Button, TextField, Typography } from "@mui/material";
+import axios from "axios";
 import React from "react";
+import { toast } from "react-toastify";
 
 const EmailVarfyForm = ({ setuserData, userData, setActiveStep }) => {
+  const OtpValidation = () => {
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/users/verifyOtp`, {
+        email: userData.email,
+        otp: userData.otp,
+      })
+      .then((response) => {
+        console.log(response);
+        toast.success("Mail varify successfully");
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.error);
+        console.log(err);
+      });
+  };
+  const ResendOtp = () => {
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/users/sendOtp`, {
+        email: userData.email,
+      })
+      .then((response) => {
+        toast.success(`OTP Successfully send on your email`);
+      })
+      .catch((err) => {
+        toast.error("Somthing went wrong please try again");
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <label
@@ -31,7 +63,7 @@ const EmailVarfyForm = ({ setuserData, userData, setActiveStep }) => {
         }
       />
       <Button
-        onClick={() => setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+        onClick={OtpValidation}
         variant="contained"
         sx={{ background: "#00A6FF" }}
         fullWidth
@@ -46,7 +78,9 @@ const EmailVarfyForm = ({ setuserData, userData, setActiveStep }) => {
           color: " #ffba5c",
           textAlign: "end",
           margin: "10px 0px",
+          cursor: "pointer",
         }}
+        onClick={ResendOtp}
       >
         Resend Code
       </Typography>

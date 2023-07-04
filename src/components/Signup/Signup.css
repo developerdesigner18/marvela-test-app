@@ -49,3 +49,8 @@
     width: 90%;
   }
 }
+@media screen and (max-width: 500px) {
+  .signup_main_box {
+    width: 100%;
+  }
+}

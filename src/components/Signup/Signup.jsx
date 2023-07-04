@@ -115,7 +115,7 @@ const Signup = () => {
     add2: "",
     city: "",
     country: "",
-    addImage: "",
+    image: "",
     password: "",
   });
 
